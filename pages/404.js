@@ -25,8 +25,8 @@ const Error404 = () => {
                         <h2 className="text-3xl capitalize text-center "><span className='text-red-500'>404 Error</span> | <span className="text-gray-500">page not fuond </span> </h2>
                         <p className="my-4 text-center">Looks like your are searching for a wrong page!</p>
                         <div>
-                            <button className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={() => navigate.push('/')}>Back to Home</button>
-                            <button className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={() => navigate.push('/contact')}>Contact Us</button>
+                            <button className="text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={() => navigate.push('/')}>Back to Home</button>
+                            <button className="text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={() => navigate.push('/contact')}>Contact Us</button>
                         </div>
                     </div>
 
