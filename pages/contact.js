@@ -1,26 +1,39 @@
+import axios from "axios";
 import { useState } from "react";
 
 
 import Heads from "../components/Heads";
 import Navbar from "../components/Navbar";
+import styles from "../styles/Contact.module.css";
+
 
 const Contact = () => {
     const [inputValue, setInputValue] = useState({ firstName: '', lastName: '', email: '', subject: '', message: '' });
+    const [showMessage, setShowMessage] = useState({ successMessage: false, errorMessage: false });
+
 
     const inputEvent = event => {
         const { name, value } = event.target;
         setInputValue((preValue) => { return { ...preValue, [name]: value } });
     }
 
-    const submitForm = event => {
+    const submitForm = async (event) => {
         event.preventDefault();
         const { firstName, lastName, email, subject, message } = inputValue;
 
         if (!firstName || !lastName || !email || !subject || !message) {
             return alert('Please fill all input fields');
         }
-
         //send data to the backend
+        const response = await axios.post('/api/contact', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: inputValue
+        });
+
+        if (response.status === 200) setShowMessage({ errorMessage: false, successMessage: true });
+        else setShowMessage({ errorMessage: true, successMessage: false });
 
         //after submit form clear input fields
         setInputValue({ firstName: '', lastName: '', email: '', subject: '', message: '' });
@@ -33,9 +46,27 @@ const Contact = () => {
             <Navbar />
 
             <div className="flex justify-center items-center flex-col h-full">
-                <h2 className="text-center text-red-500 text-3xl border-b-2 mb-12">Contact Us</h2>
+                <h2 className="text-center text-red-500 text-3xl border-b-2 mb-10">Contact Us</h2>
 
-                <form className="md:w-3/6 w-4/5" method="post" onSubmit={submitForm} autoComplete='off'>
+                {showMessage.errorMessage &&
+                    <div className="my-5">
+                        <div className={`${styles.animatedMessage} p-4 mb-4 text-sm text-center text-red-700 bg-red-100 rounded-sm w-full`} role="alert">
+                            <span className="font-bold">Error</span> Internal Server Error, Please try again leter
+                        </div>
+                    </div>
+                }
+
+
+                {showMessage.successMessage &&
+                    <div className="my-5">
+                        <div className={`${styles.animatedMessage} p-4 mb-4 text-sm text-center text-green-700 bg-green-100 rounded-sm w-full`} role="alert">
+                            <span className="font-bold">Success</span> Your message has been sent to the admin
+                        </div>
+                    </div>
+                }
+
+
+                <form className="md:w-3/6 w-4/5 pb-5 md:pb-0" method="post" onSubmit={submitForm} autoComplete='off'>
                     <div className="grid xl:grid-cols-2 xl:gap-6">
                         <div className="relative z-0 mb-6 w-full group">
                             <input type="text" name="firstName" id="floating_first_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-red-500 peer" placeholder=" " required="" onChange={inputEvent} value={inputValue.firstName} />
